@@ -20,21 +20,20 @@
                 background: #fff;
             }
             #Cover img {
+                height: 400px;
+                left: 50%;
                 position: absolute;
                 top: 50%;
-                left: 50%;
+                transform: translateY(-50%) translateX(-50%);
                 width: 400;
-                height: 400px;
-                margin-top: -250px; /* Half the height */
-                margin-left: -200px; /* Half the width */
             }
             #Cover h2 {
-                position: absolute;
-                left: 0;
-                right: 0;
                 bottom: 40px;
-                text-align:center;
                 font-size:90px;
+                left: 0;
+                position: absolute;
+                right: 0;
+                text-align:center;
             }
 		</style>
 	</div></section>
@@ -49,10 +48,10 @@
             }
 
             #Languages img {
+                left: 20px;
                 position: absolute;
                 top: 50%;
-                margin-top: -250px;
-                left: 20px;
+                transform: translateY(-50%);
                 width: 984px;
             }
         </style>
@@ -81,12 +80,50 @@
                 text-indent: 0;
             }
             #History ul > li > span {
+                color: #AAA;
                 display: inline-block;
                 margin-left: -100px;
-                width: 90px;
-                text-align: right;
                 padding-right: 10px;
-                color: #AAA;
+                text-align: right;
+                width: 90px;
+            }
+        </style>
+    </div></section>
+
+
+
+    <section class="slide" id="FDD"><div>
+        <h2>Fail Driven Development</h2>
+
+        <dl>
+            <div class="next">
+                <dt>Java / C# / C++ / etc</dt>
+                <dd>compile → <span class="bad">run → fail</span></dd>
+            </div>
+            <div class="next">
+                <dt>Python / Ruby / JS / etc</dt>
+                <dd><span class="bad">run → fail</span></dd>
+            </div>
+            <div class="next">
+                <dt>Haskell / Rust / ???</dt>
+                <dd class="good">compile → fail</dd>
+            </div>
+        </dl>
+
+        <style>
+            #FDD dt, #FDD dd {
+                display: inline-block;
+                float: left;
+            }
+            #FDD dt {
+                clear: left;
+                width: 300px;
+            }
+            #FDD .bad {
+                color: #d9534f;
+            }
+            #FDD .good {
+                color: #5cb85c;
             }
         </style>
     </div></section>
