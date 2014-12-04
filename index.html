@@ -12,12 +12,7 @@
 
 	<script src="node_modules/shower-core/shower.min.js"></script>
     <script src="assets/highlight/highlight.pack.js"></script>
-
     <script src="assets/main.js"></script>
-
-
-    <style>
-    </style>
 </head>
 <body class="list">
     
@@ -104,25 +99,37 @@
 
 
 
-    <section class="slide" id="FDD"><div>
-        <h2>Fail Driven Development</h2>
+	<section class="slide shout"><div>
+		<h2>Failure Driven Development</h2>
+	</div></section>
 
+
+
+    <section class="slide" id="FDD"><div>
+        <h2>Failure Driven Development</h2>
         <dl>
             <div class="next">
                 <dt>Java / C# / C++ / etc</dt>
-                <dd>compile → <span class="bad">run → fail</span></dd>
+                <dd class="next">
+                    compile → <mark class="bad">run → fail</mark> → …
+                </dd>
             </div>
             <div class="next">
                 <dt>Python / Ruby / JS / etc</dt>
-                <dd><span class="bad">run → fail</span></dd>
+                <dd class="next">
+                    <mark class="bad">run → fail</mark> → …
+                </dd>
             </div>
             <div class="next">
                 <dt>Haskell / Rust / ???</dt>
-                <dd class="good">compile → fail</dd>
+                <dd class="next">
+                    <mark class="good">compile → fail</mark> → … → run
+                </dd>
             </div>
         </dl>
 
         <style>
+
             #FDD dt, #FDD dd {
                 display: inline-block;
                 float: left;
@@ -132,10 +139,12 @@
                 width: 300px;
             }
             #FDD .bad {
-                color: #d9534f;
+                background: #B00;
+                color: #FFF;
             }
             #FDD .good {
-                color: #5cb85c;
+                background: #0B0;
+                color: #FFF;
             }
         </style>
     </div></section>
