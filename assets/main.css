@@ -1,0 +1,26 @@
+.slide h2,
+.slide pre,
+.slide p,
+.slide ol,
+.slide ul,
+.slide table {
+  margin-bottom: 27px;
+}
+
+.slide blockquote+figcaption {
+  margin: -28px 0 20px;
+}
+
+.slide > div {
+  padding-top: 30px;
+  height: 620px;
+}
+
+.slide pre > code {
+  line-height: 1.25;
+  font-family: Consolas, monospace;
+}
+
+.slide.hide-slide-number:after {
+  display: none;
+}

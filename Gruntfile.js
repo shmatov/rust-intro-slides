@@ -16,6 +16,7 @@ module.exports = function(grunt) {
 					src: [
 						'**',
 						'!node_modules/**',
+                        '!assets/**',
 						'!Gruntfile.js',
 						'!package.json'
 					],
@@ -47,7 +48,14 @@ module.exports = function(grunt) {
 						'!Readme.md'
 					],
 					dest: 'temp/pres/shower/themes/bright/'
-				}]
+				},{
+                    expand: true,
+                    cwd: 'assets/',
+					src: [
+						'**'
+					],
+                    dest: 'temp/pres/assets/'
+                }]
 			}
 		},
 		replace: {

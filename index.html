@@ -5,13 +5,19 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=792, user-scalable=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<link rel="stylesheet" href="node_modules/shower-bright/styles/screen.css">
-	<link rel="stylesheet" href="highlight/styles/default.css">
-	<script src="highlight/lib/highlight.pack.js"></script>
-	<script>
-		//hljs.tabReplace = '    ';
-		hljs.initHighlightingOnLoad();
-	</script>
+
+    <link rel="stylesheet" href="node_modules/shower-bright/styles/screen.css">
+    <link rel="stylesheet" href="assets/highlight/styles/xcode.css">
+    <link rel="stylesheet" href="assets/main.css">
+
+	<script src="node_modules/shower-core/shower.min.js"></script>
+    <script src="assets/highlight/highlight.pack.js"></script>
+
+    <script src="assets/main.js"></script>
+
+
+    <style>
+    </style>
 </head>
 <body class="list">
     
@@ -30,11 +36,11 @@
                 left: 50%;
                 position: absolute;
                 top: 50%;
-                transform: translateY(-50%) translateX(-50%);
+                transform: translateY(-60%) translateX(-50%);
                 width: 400;
             }
             #Cover h2 {
-                bottom: 40px;
+                bottom: 60px;
                 font-size:90px;
                 left: 0;
                 position: absolute;
@@ -184,18 +190,6 @@
 			<figcaption>Marcus Tullius Cicero</figcaption>
 		</figure>
 	</div></section>
-	<section class="slide"><div>
-		<h2>Code Samples</h2>
-		<pre>
-			<code>&lt;!DOCTYPE html&gt;</code>
-			<code>&lt;html lang="en"&gt;</code>
-			<code><mark>&lt;head&gt;</mark> <mark class="comment">&lt;!--Comment--&gt;</mark></code>
-			<code>    &lt;title&gt;Shower&lt;/title&gt;</code>
-			<code>    &lt;meta charset="<mark class="important">UTF-8</mark>"&gt;</code>
-			<code>    &lt;link rel="stylesheet" href="screen.css"&gt;</code>
-			<code><mark>&lt;/head&gt;</mark></code>
-		</pre>
-	</div></section>
 
 
 
@@ -299,25 +293,57 @@
 
 
 
-	<section class="slide"><div>
-		<h2>Ownership</h2>
-		<pre><code>
-		{
-		    int *x = malloc(sizeof(int));
-		    // do stuff
-		    *x = 5;
-		    free(x);
-		}
-		</pre></code>
-	</div></section>
+    <section class="slide"><div>
+        <h2>Two blocks</h2>
+        <pre><code data-language="cpp">
+            {
+                int *x = malloc(sizeof(int));
+                // do stuff
+                *x = 5;
+                free(x);
+                *x = 5;
+                free(x);
+            }
+        </code></pre>
+        <pre><code data-language="cpp">
+            {
+                int *x = malloc(sizeof(int));
+                // do stuff
+                *x = 5;
+                free(x);
+                *x = 5;
+                free(x);
+            }
+        </code></pre>
+    </div></section>
 
-	<!--
-		To hide progress bar from entire presentation
-		just remove “progress” element.
-		-->
+
+
+    <section class="slide hide-slide-number"><div>
+        <h2>Single block</h2>
+        <pre><code data-language="rust">
+            use std::io;
+            use std::os;
+                
+            fn main() {
+                let args = os::args();
+                if args.len() != 2 {
+                    return;
+                }
+                let word = &args[1];
+                let mut reader = io::stdin();
+                let mut filtered = reader.lines()
+                    .filter_map(|line| line.ok())
+                    .filter(|line| line.as_slice().contains(word));
+                for line in filtered {
+                    print!("{}", line);
+                }
+            }
+        </code></pre>
+    </div></section>
+
+
+
 	<div class="progress"><div></div></div>
-	<script src="node_modules/shower-core/shower.min.js"></script>
-	<!-- Copyright © 2014 Yours Truly, Famous Inc. -->
-	<!-- Photos by John Carey, fiftyfootshadows.net -->
 </body>
 </html>
