@@ -6,6 +6,12 @@
 	<meta name="viewport" content="width=792, user-scalable=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<link rel="stylesheet" href="node_modules/shower-bright/styles/screen.css">
+	<link rel="stylesheet" href="highlight/styles/default.css">
+	<script src="highlight/lib/highlight.pack.js"></script>
+	<script>
+		//hljs.tabReplace = '    ';
+		hljs.initHighlightingOnLoad();
+	</script>
 </head>
 <body class="list">
     
@@ -278,9 +284,12 @@
 	</div></section>
 
 
+
 	<section class="slide shout"><div>
 		<h2>Владение данными</h2>
 	</div></section>
+
+
 
 	<section class="slide"><div>
 		<h2>Ownership and borrowing</h2>
@@ -288,8 +297,18 @@
 		<p>Владение данными основывается на теории <i>линейных типов</i> (linear types). Авторы Rust вдохновлялись языками Clean и Cyclone; см. также unique_ptr в C++</p>
 	</div></section>
 
+
+
 	<section class="slide"><div>
 		<h2>Ownership</h2>
+		<pre><code>
+		{
+		    int *x = malloc(sizeof(int));
+		    // do stuff
+		    *x = 5;
+		    free(x);
+		}
+		</pre></code>
 	</div></section>
 
 	<!--
