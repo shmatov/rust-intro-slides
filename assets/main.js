@@ -5,7 +5,7 @@ window.onload = function() {
 };
 
 function highlightSource(block, lang) {
-    var sourceLines = block.innerText.split('\n');
+    var sourceLines = (block.innerText || block.textContent).split('\n');
     //remove empty lines
     while (!sourceLines[0].trim()) sourceLines.shift();
     while (!sourceLines[sourceLines.length - 1].trim()) sourceLines.pop();
@@ -15,7 +15,7 @@ function highlightSource(block, lang) {
     sourceLines.forEach(function(line) {
         var elem = document.createElement('code');
         elem.classList.add('language-' + lang);
-        elem.innerText = line.substr(basisIndent);
+        elem.innerText = elem.textContent = line.substr(basisIndent);
         hljs.highlightBlock(elem);
         source.appendChild(elem);
     });
