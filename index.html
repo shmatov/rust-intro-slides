@@ -277,7 +277,7 @@
 	<section class="slide"><div>
 		<h2>Ownership</h2>
 		<pre><code data-language="rust">
-fn add_one(mut num: Box<int>) {
+fn add_one(mut num: Box&lt;int&gt;) {
     *num += 1;
 }
 	
@@ -295,7 +295,7 @@ println!("{}", x);  // ! error: use of moved value: x
 	<section class="slide"><div>
 		<h2>Ownership</h2>
 		<pre><code data-language="rust">
-fn add_one(mut num: Box<int>) -> Box<int> {
+fn add_one(mut num: Box&lt;int&gt;) -> Box&lt;int&gt; {
     *num += 1;
     num
 }
@@ -391,7 +391,7 @@ let p2 = &mut x;  // ! cannot borrow x as mutable
 		<h2>Borrowing and mutability</h2>
 		<p>«Эксклюзивность» мутабельных ссылок исключает очень большой класс ошибок вида use-after-free (и не только):</p>
 		<pre><code data-language="rust">
-let mut v: Vec<int> = vec![1, 2];
+let mut v: Vec&lt;int&gt; = vec![1, 2];
 let e = &v[0];
 v.push(3);  // reallocates the vector, moving its contents
             // ! cannot borrow v as mutable because 
@@ -671,16 +671,148 @@ unsafe { perror(); }
 	
 	
 	
+	<section class="slide"><div>
+		<h2>Использование С-library из Rust</h2>
+		<p>Импорт функции</p>
+		<pre><code data-language="rust">
+extern crate libc;
+use libc::size_t;
+	
+#[link(name = "snappy")]
+extern {
+    fn snappy_max_compressed_length
+		(source_length: size_t) -> size_t;
+}
+	
+fn main() {
+    let x = unsafe { snappy_max_compressed_length(100) };
+    println!("max length of a 100 byte buffer: {}", x);
+}
+		</code></pre>
+	</div></section>
+	
+	
+	
 	<section class="slide hide-slide-number"><div>
+		<h2>Использование С-library из Rust</h2>
+		<p>Для заголовочного файла С</p>
+		<pre><code data-language="с">
+#ifndef UTIL_SNAPPY_OPENSOURCE_SNAPPY_C_H_
+#define UTIL_SNAPPY_OPENSOURCE_SNAPPY_C_H_
+#include &lt;stddef.h&gt;
+
+...
+	
+// Returns the maximal size of the compressed 
+// representation of input data that
+// has length of source bytes
+
+size_t snappy_max_compressed_length(size_t source_length);
+
+#endif /* UTIL_SNAPPY_OPENSOURCE_SNAPPY_C_H_ */
+		</code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Callbacks from C to Rust</h2>
+		<pre><code data-language="rust">
+extern fn callback(a: i32) {
+    println!("I'm called from C with value {0}", a);
+}
+	
+#[link(name = "extlib")]
+extern {
+   fn register_callback(cb: extern fn(i32)) -> i32;
+   fn trigger_callback();
+}
+	
+fn main() {
+    unsafe {
+        register_callback(callback);
+        trigger_callback(); // Triggers the callback
+    }
+}
+		</code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Callbacks from C to Rust</h2>
+		<pre><code data-language="c">
+typedef void (*rust_callback)(int32_t);
+rust_callback cb;
+	
+int32_t register_callback(rust_callback callback) {
+    cb = callback;
+    return 1;
+}
+	
+void trigger_callback() {
+  cb(7); // Will call callback(7) in Rust
+}
+		</code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Rust и Assembler</h2>
+		<pre><code data-language="rust">
+#![feature(asm)]
+	
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+fn foo() {
+    unsafe {
+        asm!("NOP");
+    }
+}
+// other platforms
+#[cfg(not(any(target_arch = "x86", target_arch = "x86_64")))]
+fn foo() { /* ... */ }
+	
+fn main() {
+    foo();
+    // ...
+}
+		</code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Rust и Assembler</h2>
+		<pre><code data-language="rust">
+fn add(a: int, b: int) -> int {
+    let mut c = 0;
+    unsafe {
+        asm!("add $2, $0"
+             : "=r"(c)
+             : "0"(a), "r"(b)
+             );
+    }
+    c
+}
+	
+fn main() {
+    assert_eq!(add(3, 14159), 14162)
+}
+		</code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
 		<h2>Когда это нужно</h2>
 		<ol>
 			<ul>
 				<li>ещё больше производительности</li>
-				<li>абстракции</li>
 				<li>взаимодействие с внешними библиотеками</li>
 			</ul>
 		</ol>
-		<p>Другими словами — очень редко!</p>
+		<p>Другими словами — для системного программирования!</p>
 	</div></section>
 
 
