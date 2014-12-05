@@ -20,7 +20,7 @@
     
     <section class="slide cover" id="Cover"><div>
 		<h2>Rust</h2>
-		<img src="pictures/rust-logo.svg" alt="">
+		<img src="pictures/rust-logo.svg">
 
 		<style>
             #Cover {
@@ -47,8 +47,14 @@
 
 
 
+	<section class="slide shout"><div>
+		<h2>Ещё один язык?!</h2>
+	</div></section>
+
+
+
     <section class="slide cover" id="Languages"><div>
-        <img src="pictures/languages.png" alt="">
+        <img src="pictures/languages.png">
         <style>
             #Languages {
                 background: #fff;
@@ -95,6 +101,88 @@
                 width: 90px;
             }
         </style>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+		<figure>
+			<blockquote>
+                <p>Rust — это системный язык программирования, который работает невероятно быстро, предотвращает почти все падения и недопускает гонки данных.</p>
+                <p>
+                    <span class="next">бесплатные абстракции;</span>
+                    <span class="next">move-семантика;</span>
+                    <span class="next">гарантированная безопастность памяти;</span>
+                    <span class="next">многопоточность без гонок данных;</span>
+                    <span class="next">дженерики основанные на трейтах;</span>
+                    <span class="next">сопоставление с образцом;</span>
+                    <span class="next">вывод типов;</span>
+                    <span class="next">минимальный рантайм;</span>
+                    <span class="next">эфективные С биндинги.</span>
+                </p>
+			</blockquote>
+			<figcaption class="next">www.rust-lang.org</figcaption>
+		</figure>
+	</div></section>
+
+
+
+    <section class="slide"><div>
+        <img src="pictures/im-not-ok.png" class="place">
+    </div></section>
+
+
+
+	<section class="slide"><div>
+		<h2>Hello world</h2>
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                println!("Hello world");
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                let name = "world";
+                println!("Hello {}", name);
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn hello(name: &str) {
+                println!("Hello {}", name);
+            }
+
+            fn main() {
+                hello("world");
+            }
+        </code></pre>
+
+    </div></section>
+
+
+
+	<section class="slide"><div>
+		<h2>Hello world</h2>
+        <pre><code data-language="rust">
+            fn hello(name: &str) -> String {
+                format!("Hello {}", name)
+            }
+
+            fn main() {
+                println!("{}", hello("world"));
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                for number in range(1u, 100) {
+                    if number % 2 == 0 {
+                        println!("{}", number);
+                    }
+                }
+            }
+        </code></pre>
     </div></section>
 
 
@@ -148,143 +236,6 @@
             }
         </style>
     </div></section>
-
-
-
-	<section class="slide"><div>
-		<h2>Shower Key Features</h2>
-		<ol>
-			<li>Built on HTML, CSS and vanilla JavaScript</li>
-			<li>All modern browsers are supported</li>
-			<li>Slide themes are separated from engine</li>
-			<li>Fully keyboard accessible</li>
-			<li>Printable to PDF</li>
-		</ol>
-		<p class="note">Shower ['ʃəuə] noun. A person or thing that shows.</p>
-	</div></section>
-
-
-
-	<section class="slide"><div>
-		<h2>Plain Text on Your Slides</h2>
-		<p>Lorem ipsum dolor sit amet, consectetur <a href="#4">adipisicing</a> elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, <em>quis nostrud</em> exercitation ullamco laboris <strong>nisi ut aliquip</strong> ex ea commodo consequat. Duis aute irure <i>dolor</i> in reprehenderit in voluptate velit esse cillum <b>dolore</b> eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in <code>&lt;culpa&gt;</code> qui officia deserunt mollit anim id est laborum.</p>
-	</div></section>
-
-
-
-	<section class="slide"><div>
-		<h2>All Kind of Lists</h2>
-		<ol>
-			<li>Simple lists are marked with bullets</li>
-			<li>Ordered lists begin with a number</li>
-			<li>You can even nest lists one inside another
-				<ul>
-					<li>Or mix their types</li>
-					<li>But do not go too far</li>
-					<li>Otherwise audience will be bored</li>
-				</ul>
-			</li>
-			<li>Look, seven rows exactly!</li>
-		</ol>
-	</div></section>
-
-
-
-	<section class="slide"><div>
-		<h2>Serious Citations</h2>
-		<figure>
-			<blockquote>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.</p>
-			</blockquote>
-			<figcaption>Marcus Tullius Cicero</figcaption>
-		</figure>
-	</div></section>
-
-
-
-	<section class="slide"><div>
-		<h2>Even Tables</h2>
-		<table>
-		<tr>
-			<th scope="col">Locavore</th>
-			<th>Umami</th>
-			<th>Helvetica</th>
-			<th>Vegan</th>
-		</tr>
-		<tr>
-			<th scope="row">Fingerstache</th>
-			<td>Kale</td>
-			<td>Chips</td>
-			<td>Keytar</td>
-		</tr>
-		<tr>
-			<th scope="row">Sriracha</th>
-			<td>Gluten-free</td>
-			<td>Ennui</td>
-			<td>Keffiyeh</td>
-		</tr>
-		<tr>
-			<th scope="row">Thundercats</th>
-			<td>Jean</td>
-			<td>Shorts</td>
-			<td>Biodiesel</td>
-		</tr>
-		<tr>
-			<th scope="row">Terry</th>
-			<td>Richardson</td>
-			<td>Swag</td>
-			<td>Blog</td>
-		</tr>
-		</table>
-		<p>It’s good to have information organized.</p>
-	</div></section>
-
-	<section class="slide cover" id="Picture"><div>
-		<h2>Pictures</h2>
-		<img src="pictures/picture.jpg" alt="">
-		<style>
-			#Picture h2 {
-				color:#FFF;
-				}
-		</style>
-	</div></section>
-
-
-
-	<section class="slide shout"><div>
-		<h2>You can even shout this way</h2>
-	</div></section>
-
-
-
-	<section class="slide"><div>
-		<h2>Inner Navigation</h2>
-		<ol>
-			<li>Lets you reveal list items one by one</li>
-			<li class="next">To keep some key points</li>
-			<li class="next">In secret from audience</li>
-			<li class="next">But it will work only once</li>
-			<li class="next">Nobody wants to see the same joke twice</li>
-		</ol>
-	</div></section>
-
-
-
-	<section class="slide shout" id="SeeMore"><div>
-		<h2><img src="pictures/logo.svg" alt=""> <a href="https://github.com/shower/shower">See more on GitHub</a></h2>
-		<style>
-			#Picture h2 {
-				color:#FFF;
-				}
-			#SeeMore h2 {
-				font-size:100px
-				}
-			#SeeMore img {
-				width:0.72em;
-				height:0.72em;
-				}
-		</style>
-	</div></section>
 
 
 
@@ -375,14 +326,14 @@ println!("{}", x);
 		<h2>RAII</h2>
 		<pre><code data-language="rust">
 {
-    let mut f = File::open(&Path::new("/some/path")).unwrap()
+    let mut f = File::open(&Path::new("/path")).unwrap();
     // work with file ...
 }   // f's destructor is called here
     // (unless it is moved somewhere else)
         </code></pre>
         <p>Ownership + move semantics + деструкторы = безопасный RAII. <br> Но move semantics подразумевает передачу права владения, что возможно далеко не всегда:</p>
 		<pre><code data-language="rust">
-let mut f = File::open(&Path::new("/some/path")).unwrap();
+let mut f = File::open(&Path::new("/path")).unwrap();
 let buf = [0u8, ..128];
 f.read(buf).unwrap();
 println!("{}", buf);  // ! use of moved value: buf
@@ -455,13 +406,13 @@ v.push(3);  // reallocates the vector, moving its contents
         <pre><code data-language="rust">
 let mut num = box 5i;
 let e = &*num;
-num = box 6i; //! cannot assign to num because it is borrowed
+num = box 6i; //! can't assign to num because it's borrowed
         </code></pre>
         <pre><code data-language="rust">
 let mut v = vec![1i, 2, 3];
 for &e in v.iter() {
     println!("{}", e);
-    if e == 2 { v.push(-42); } //! cannot borrow v as mutable
+    if e == 2 { v.push(-42); } //! can't borrow v as mutable
 }
         </code></pre>
 	</div></section>
@@ -482,33 +433,258 @@ for &e in v.iter() {
 	
 	
 	
-    <section class="slide"><div>
-        <h2>Two blocks</h2>
-        <pre><code data-language="cpp">
-            {
-                int *x = malloc(sizeof(int));
-                // do stuff
-                *x = 5;
-                free(x);
-                *x = 5;
-                free(x);
-            }
+	<section class="slide"><div>
+		<h2>Lifetimes</h2>
+		<p>С каждой ссылкой ассоциирован параметр — время жизни того объекта, на который она указывает. Компилятор статически проверяет, что каждая ссылка всегда «живёт» меньше, чем исходный объект:</p>
+		<pre><code data-language="rust">
+fn make_ref<'a>() -> &'a int {
+    let x = 10i;
+    &x  // ! x does not live long enough
+}
         </code></pre>
-        <pre><code data-language="cpp">
-            {
-                int *x = malloc(sizeof(int));
-                // do stuff
-                *x = 5;
-                free(x);
-                *x = 5;
-                free(x);
-            }
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Lifetimes</h2>
+        <pre><code data-language="rust">
+fn first_and_last<'a>(slice: &'a [T]) -> (&'a T, &'a T) {
+    (&slice[0], &slice[slice.len()-1])
+}
         </code></pre>
-    </div></section>
+        <pre><code data-language="rust">
+fn first_and_last(slice: &[T]) -> (&T, &T) {  // identical
+    (&slice[0], &slice[slice.len()-1])
+}
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Lifetimes</h2>
+		<p>Lifetime-параметры можно ассоциировать с областями видимости:</p>
+		<pre><code data-language="rust">
+let x;
+{
+    let n = 5i;
+    x = &n;  // ! n does not live long enough
+}
+println!("{}", *x);
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Lifetimes</h2>
+		<p>Lifetime-параметры «заражают» типы:</p>
+		<pre><code data-language="rust">
+struct AnIntReference<'a> {
+    r: &'a int
+}
+enum MaybeOwned<'a> {
+    Owned(String),
+    Slice(&'a str)
+}
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Lifetimes</h2>
+		<p>Идентификатор 'static обозначает время жизни всей программы:</p>
+		<pre><code data-language="rust">
+static ANSWER: int = 42;
+fn print_static_int_only(r: &'static int) {  // '
+    println!("{}", *r);
+}
+fn main() {
+    print_static_int_only(&ANSWER);  // ok
+    let r = 21;
+    print_static_int_only(&r);  // ! r does not
+								// live long enough
+}
+        </code></pre>
+        <pre><code data-language="rust">
+const MESSAGE: &'static str = "Hello world!";
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Shared ownership</h2>
+		<p>В рамках одного потока — подсчёт ссылок:</p>
+		<pre><code data-language="rust">
+use std::rc::Rc;
+{
+    let r = Rc::new(vec![1, 2, 3]);
+    let r2 = r.clone();
+    println!("{}", *r);
+    println!("{}", *r2);
+}  // both references go out of scope, Vec is destroyed
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide shout"><div>
+		<h2>Многопоточность</h2>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Потоки</h2>
+		<p>Создаются функцией spawn():</p>
+		<pre><code data-language="rust">
+spawn(move || {  // unboxed closure
+    println!("Hello from other thread!");
+});
+        </code></pre>
+        <p>Потоки — это потоки ОС.<br>Система типов гарантирует, что замыкание не захватит «опасные» переменные.</p>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Каналы</h2>
+		<p>Общение между потоками происходит через каналы:</p>
+		<pre><code data-language="rust">
+let (tx, rx) = channel();
+spawn(move || {
+    tx.send(4u + 6);
+    tx.send(5u + 7);
+});
+println!("{}, {}", rx.recv(), rx.recv());
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Shared state</h2>
+		<p>Данные «без ссылок внутри» разделяемые с помощью Arc:</p>
+		<pre><code data-language="rust">
+use std::sync::Arc;
+	
+let data = Arc::new(vec![1u, 2, 3]);
+	
+let for_thread = data.clone();
+spawn(move || {
+    println!("From spawned thread: {}", *for_thread);
+});
+	
+println!("From main thread: {}", *data);
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Mutable shared state</h2>
+		<p>За счёт системы типов использование синхронизации <i>обязательно</i>. Таким образом, исключаются гонки данных
+(data races):</p>
+		<pre><code data-language="rust">
+use std::sync::{Arc, Mutex};
+let data = Arc::new(Mutex::new(vec![1u, 2, 3]));
+let for_thread = data.clone();
+	
+spawn(move || {
+    let mut guard = for_thread.lock();
+    guard.push(4);
+    println!("{}", *guard);
+});
+let mut guard = data.lock();
+guard.push(5);
+println!("{}", *guard);
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<!-- ROMAN SHMATOV SECTION STARTS -->
+
+	<!-- Как это выглядит на высоком уровне? -->
+	
+	<!-- ROMAN SHMATOV SECTION ENDS -->
 
 
 
-    <section class="slide hide-slide-number"><div>
+    <section class="slide shout"><div>
+		<h2>Unsafe</h2>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Что это такое</h2>
+		<p>unsafe-блоки и unsafe-функции:</p>
+		<pre><code data-language="rust">
+unsafe fn from_raw_buf<'a, T>(p: &'a *const T, 
+                              n: uint) -> &'a [u8] {
+    std::mem::transmute(std::raw::Slice {
+        data: *p,
+        len: n
+    })
+}
+        </code></pre>
+        <pre><code data-language="rust">
+fn fill_buffer<R: Reader>(r: R, size: uint) -> Vec<u8> {
+    let v = Vec::with_capacity(size);
+    unsafe { v.set_len(size) };
+    r.read(v.as_mut_slice()).unwrap();
+    v
+}
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Unsafe-операции</h2>
+		<ol>
+			<ul>
+				<li>разыменование «сырого» указателя:</li>
+					<pre><code data-language="rust">
+let n = 10i;
+let p = &n as *const int;
+println!("{}", unsafe { *p });
+					</code></pre>
+				<li>чтение/запись статической мутабельной переменной:</li>
+					<pre><code data-language="rust">
+static mut COUNTER: u32 = 10;
+unsafe { COUNTER += 32 };
+println!("{}", unsafe { COUNTER });
+					</code></pre>
+				<li>вызов unsafe-функции:</li>
+					<pre><code data-language="rust">
+extern { fn perror(); }
+unsafe { perror(); }
+					</code></pre>
+			</ul>
+		</ol>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Когда это нужно</h2>
+		<ol>
+			<ul>
+				<li>ещё больше производительности</li>
+				<li>абстракции</li>
+				<li>взаимодействие с внешними библиотеками</li>
+			</ul>
+		</ol>
+		<p>Другими словами — очень редко!</p>
+	</div></section>
+	
+	
+	<section class="slide hide-slide-number"><div>
         <h2>Single block</h2>
         <pre><code data-language="rust">
             use std::io;
