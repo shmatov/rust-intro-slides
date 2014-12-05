@@ -134,54 +134,456 @@
 
 
 	<section class="slide"><div>
-		<h2>Hello world</h2>
-        <pre class="next"><code data-language="rust">
+        <h2>Hello world</h2>
+        <pre><code data-language="rust">
             fn main() {
                 println!("Hello world");
             }
         </code></pre>
-
-        <pre class="next"><code data-language="rust">
-            fn main() {
-                let name = "world";
-                println!("Hello {}", name);
-            }
-        </code></pre>
-
-        <pre class="next"><code data-language="rust">
-            fn hello(name: &str) {
-                println!("Hello {}", name);
-            }
-
-            fn main() {
-                hello("world");
-            }
-        </code></pre>
-
     </div></section>
 
 
 
 	<section class="slide"><div>
-		<h2>Hello world</h2>
-        <pre><code data-language="rust">
-            fn hello(name: &str) -> String {
-                format!("Hello {}", name)
-            }
+        <h2>Простые типы</h2>
+        <ol>
+            <li>числа с фиксированным размером:<br>
+                <b>i8</b>, ..., <b>i64</b>, <b>u8</b>, ..., <b>u68</b>, <b>f32</b>, <b>f64</b>
+            </li>
+            <li class="next">с платформозависимым размером: <b>int</b>, <b>uint</b></li>
+            <li class="next">массивы: <b>[int, ..2]</b></li>
+            <li class="next">строки: <b>str</b></li>
+        </ol>
+    </div></section>
 
+
+
+	<section class="slide"><div>
+        <h2>«Переменные»</h2>
+        <pre><code data-language="rust">
             fn main() {
-                println!("{}", hello("world"));
+                let x = 1i;
+
+                let mut y: int = 2;
+                y += 1;
+                
+                let z: uint;
+                z = 4
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>Функции</h2>
+        <pre><code data-language="rust">
+            fn print_number(x: int) {
+                println!("x is: {}", x);
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn sum(x: int, y: int) -> int {
+                x + y
             }
         </code></pre>
 
         <pre class="next"><code data-language="rust">
             fn main() {
-                for number in range(1u, 100) {
-                    if number % 2 == 0 {
-                        println!("{}", number);
-                    }
+                print_number(sum(1, 2));
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>Кортежи</h2>
+        <pre><code data-language="rust">
+            fn main() {
+                let x: (int, &str) = (1, "hello");
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn next_two(x: int) -> (int, int) {
+                (x + 1i, x + 2i)
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                let (x, y) = next_two(5i);
+                println!("x, y = {}, {}", x, y);
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>Структуры</h2>
+        
+        <pre><code data-language="rust">
+            struct Point {
+                x: int,
+                y: int,
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn print_point(point: Point) {
+                println!("The point is at ({}, {})", point.x, point.y);
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                let origin = Point { x: 0, y: 0 };
+                print_point(origin);
+
+                let mut point = Point { x: 0, y: 0 };
+                point.x = 5;
+                print_point(point);
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>«Кортежные» структуры и <br>новые типы</h2>
+        <pre><code data-language="rust">
+            struct Color(int, int, int);
+
+            struct Inches(int); 
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                let black  = Color(0, 0, 0);
+                let length = Inches(10);
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>Перечисления</h2>
+
+        <pre><code data-language="rust">
+            enum Ordering {
+                Less,
+                Equal,
+                Greater,
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn cmp(a: int, b: int) -> Ordering {
+                Ordering::Equal // :)
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                let result = cmp(1, 2);
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>Перечисления</h2>
+
+        <pre><code data-language="rust">
+            enum OptionalInt {
+                Value(int),
+                Missing,
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            enum Direction {
+                North = 1,
+                West = 2,
+                South = 3,
+                East = 4
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                let x = OptionalInt::Value(1);
+                let direction = Direction::North;
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>Циклы</h2>
+        <pre><code data-language="rust">
+            fn main() {
+                for x in range(0i, 10) {
+                    println!("{}", x);
                 }
             }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                let mut i = 0i;
+                while i < 10 {
+                    i += 1;
+                }
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>Условия</h2>
+        <pre><code data-language="rust">
+            fn main() {
+                let x = 5i;
+                if x == 5i {
+                    println!("x is five!");
+                } else {
+                    println!("x is not five :(");
+                }
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                let x = 5i;
+                let y = if x == 5i { true } else { false };
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>Сопоставление с образцом</h2>
+
+        <pre><code data-language="rust">
+            fn main() {
+                let x: uint = 10;
+                let name = match x {
+                    1 => "one",
+                    2 => "two",
+                    _ => "many"
+                }; 
+                println!("{}", name);
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide hide-slide-number"><div>
+        <h2>Сопоставление с образцом</h2>
+
+        <pre><code data-language="rust">
+            use OptionalInt::{Value, Missing};
+            enum OptionalInt {
+                Value(int),
+                Missing,
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn print_optional_int(x: OptionalInt) {
+                match x {
+                    Value(x) => println!("x is {}", x),
+                    Missing  => println!("x is missing")
+                }
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                print_optional_int(Value(1));
+                print_optional_int(Missing);
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide hide-slide-number"><div>
+        <h2>Сопоставление с образцом</h2>
+
+        <pre><code data-language="rust">
+            fn main() {
+                let list = [1i, 2, 3, 4];
+                match list {
+                    [1, x, rest..] => {
+                        println!("2nd: {}, all others: {}", x, rest);
+                    }
+                    _ => println!("Something else")
+                }
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn move((x, y): (int, int), shift: int) -> (int, int) { 
+                (x + shift, y + shift)
+            }
+
+            fn main() {
+                let (x, y) = sum((1, 2), 10);
+            } 
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide hide-slide-number"><div>
+        <h2>Сопоставление с образцом</h2>
+
+        <pre><code data-language="rust">
+            fn main() {
+                if let Some(x) = from_str::&lt;int&gt;("12345") {
+                    println!("number {}", x);
+                }
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn next_int() -> Result&lt;int, int&gt; { ... }
+
+            fn main() {
+                while let Ok(token) = next_int() {
+                    println!("Next token: {}", token);
+                }
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>Замыкания</h2>
+
+        <pre><code data-language="rust">
+            fn main() {
+                let x = 5i;
+                let add = |number: int| { number + x };
+                println!("{}", add(10i))
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn twice(x: int, f: |int| -> int) -> int {
+                f(x) + f(x)
+            }
+
+            fn main() {
+                twice(5i, |x: int| { x * x });
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide hide-slide-number"><div>
+        <h2>Методы</h2>
+
+        <pre><code data-language="rust">
+            struct Circle {
+                x: f64,
+                y: f64,
+                radius: f64,
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            impl Circle {
+                fn area(&self) -> f64 {
+                    std::f64::consts::PI * (self.radius * self.radius)
+                }
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                let c = Circle { x: 0.0, y: 0.0, radius: 2.0 };
+                println!("{}", c.area());
+            }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide hide-slide-number"><div>
+        <h2>Дженерики</h2>
+
+        <pre><code data-language="rust">
+            enum OptionalInt {
+                Value(int),
+                Missing,
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            enum OptionalFloat64 {
+                Value(f64),
+                Missing,
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            enum Optional&lt;T&gt; {
+                Value(T),
+                Missing,
+            }
+
+            fn main() { let (x, y) = (Value(3i), Value("foobar")); }
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2>Трейты</h2>
+
+        <pre><code data-language="rust">
+
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2></h2>
+
+        <pre><code data-language="rust">
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2></h2>
+
+        <pre><code data-language="rust">
+        </code></pre>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+        <h2></h2>
+
+        <pre><code data-language="rust">
         </code></pre>
     </div></section>
 
@@ -217,7 +619,6 @@
         </dl>
 
         <style>
-
             #FDD dt, #FDD dd {
                 display: inline-block;
                 float: left;
