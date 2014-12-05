@@ -375,14 +375,14 @@ println!("{}", x);
 		<h2>RAII</h2>
 		<pre><code data-language="rust">
 {
-    let mut f = File::open(&Path::new("/some/path")).unwrap()
+    let mut f = File::open(&Path::new("/path")).unwrap();
     // work with file ...
 }   // f's destructor is called here
     // (unless it is moved somewhere else)
         </code></pre>
         <p>Ownership + move semantics + деструкторы = безопасный RAII. <br> Но move semantics подразумевает передачу права владения, что возможно далеко не всегда:</p>
 		<pre><code data-language="rust">
-let mut f = File::open(&Path::new("/some/path")).unwrap();
+let mut f = File::open(&Path::new("/path")).unwrap();
 let buf = [0u8, ..128];
 f.read(buf).unwrap();
 println!("{}", buf);  // ! use of moved value: buf
@@ -455,13 +455,13 @@ v.push(3);  // reallocates the vector, moving its contents
         <pre><code data-language="rust">
 let mut num = box 5i;
 let e = &*num;
-num = box 6i; //! cannot assign to num because it is borrowed
+num = box 6i; //! can't assign to num because it's borrowed
         </code></pre>
         <pre><code data-language="rust">
 let mut v = vec![1i, 2, 3];
 for &e in v.iter() {
     println!("{}", e);
-    if e == 2 { v.push(-42); } //! cannot borrow v as mutable
+    if e == 2 { v.push(-42); } //! can't borrow v as mutable
 }
         </code></pre>
 	</div></section>
@@ -482,33 +482,258 @@ for &e in v.iter() {
 	
 	
 	
-    <section class="slide"><div>
-        <h2>Two blocks</h2>
-        <pre><code data-language="cpp">
-            {
-                int *x = malloc(sizeof(int));
-                // do stuff
-                *x = 5;
-                free(x);
-                *x = 5;
-                free(x);
-            }
+	<section class="slide"><div>
+		<h2>Lifetimes</h2>
+		<p>С каждой ссылкой ассоциирован параметр — время жизни того объекта, на который она указывает. Компилятор статически проверяет, что каждая ссылка всегда «живёт» меньше, чем исходный объект:</p>
+		<pre><code data-language="rust">
+fn make_ref<'a>() -> &'a int {
+    let x = 10i;
+    &x  // ! x does not live long enough
+}
         </code></pre>
-        <pre><code data-language="cpp">
-            {
-                int *x = malloc(sizeof(int));
-                // do stuff
-                *x = 5;
-                free(x);
-                *x = 5;
-                free(x);
-            }
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Lifetimes</h2>
+        <pre><code data-language="rust">
+fn first_and_last<'a>(slice: &'a [T]) -> (&'a T, &'a T) {
+    (&slice[0], &slice[slice.len()-1])
+}
         </code></pre>
-    </div></section>
+        <pre><code data-language="rust">
+fn first_and_last(slice: &[T]) -> (&T, &T) {  // identical
+    (&slice[0], &slice[slice.len()-1])
+}
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Lifetimes</h2>
+		<p>Lifetime-параметры можно ассоциировать с областями видимости:</p>
+		<pre><code data-language="rust">
+let x;
+{
+    let n = 5i;
+    x = &n;  // ! n does not live long enough
+}
+println!("{}", *x);
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Lifetimes</h2>
+		<p>Lifetime-параметры «заражают» типы:</p>
+		<pre><code data-language="rust">
+struct AnIntReference<'a> {
+    r: &'a int
+}
+enum MaybeOwned<'a> {
+    Owned(String),
+    Slice(&'a str)
+}
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Lifetimes</h2>
+		<p>Идентификатор 'static обозначает время жизни всей программы:</p>
+		<pre><code data-language="rust">
+static ANSWER: int = 42;
+fn print_static_int_only(r: &'static int) {  // '
+    println!("{}", *r);
+}
+fn main() {
+    print_static_int_only(&ANSWER);  // ok
+    let r = 21;
+    print_static_int_only(&r);  // ! r does not
+								// live long enough
+}
+        </code></pre>
+        <pre><code data-language="rust">
+const MESSAGE: &'static str = "Hello world!";
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Shared ownership</h2>
+		<p>В рамках одного потока — подсчёт ссылок:</p>
+		<pre><code data-language="rust">
+use std::rc::Rc;
+{
+    let r = Rc::new(vec![1, 2, 3]);
+    let r2 = r.clone();
+    println!("{}", *r);
+    println!("{}", *r2);
+}  // both references go out of scope, Vec is destroyed
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide shout"><div>
+		<h2>Многопоточность</h2>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Потоки</h2>
+		<p>Создаются функцией spawn():</p>
+		<pre><code data-language="rust">
+spawn(move || {  // unboxed closure
+    println!("Hello from other thread!");
+});
+        </code></pre>
+        <p>Потоки — это потоки ОС.<br>Система типов гарантирует, что замыкание не захватит «опасные» переменные.</p>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Каналы</h2>
+		<p>Общение между потоками происходит через каналы:</p>
+		<pre><code data-language="rust">
+let (tx, rx) = channel();
+spawn(move || {
+    tx.send(4u + 6);
+    tx.send(5u + 7);
+});
+println!("{}, {}", rx.recv(), rx.recv());
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Shared state</h2>
+		<p>Данные «без ссылок внутри» разделяемые с помощью Arc:</p>
+		<pre><code data-language="rust">
+use std::sync::Arc;
+	
+let data = Arc::new(vec![1u, 2, 3]);
+	
+let for_thread = data.clone();
+spawn(move || {
+    println!("From spawned thread: {}", *for_thread);
+});
+	
+println!("From main thread: {}", *data);
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Mutable shared state</h2>
+		<p>За счёт системы типов использование синхронизации <i>обязательно</i>. Таким образом, исключаются гонки данных
+(data races):</p>
+		<pre><code data-language="rust">
+use std::sync::{Arc, Mutex};
+let data = Arc::new(Mutex::new(vec![1u, 2, 3]));
+let for_thread = data.clone();
+	
+spawn(move || {
+    let mut guard = for_thread.lock();
+    guard.push(4);
+    println!("{}", *guard);
+});
+let mut guard = data.lock();
+guard.push(5);
+println!("{}", *guard);
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<!-- ROMAN SHMATOV SECTION STARTS -->
+
+	<!-- Как это выглядит на высоком уровне? -->
+	
+	<!-- ROMAN SHMATOV SECTION ENDS -->
 
 
 
-    <section class="slide hide-slide-number"><div>
+    <section class="slide shout"><div>
+		<h2>Unsafe</h2>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Что это такое</h2>
+		<p>unsafe-блоки и unsafe-функции:</p>
+		<pre><code data-language="rust">
+unsafe fn from_raw_buf<'a, T>(p: &'a *const T, 
+                              n: uint) -> &'a [u8] {
+    std::mem::transmute(std::raw::Slice {
+        data: *p,
+        len: n
+    })
+}
+        </code></pre>
+        <pre><code data-language="rust">
+fn fill_buffer<R: Reader>(r: R, size: uint) -> Vec<u8> {
+    let v = Vec::with_capacity(size);
+    unsafe { v.set_len(size) };
+    r.read(v.as_mut_slice()).unwrap();
+    v
+}
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Unsafe-операции</h2>
+		<ol>
+			<ul>
+				<li>разыменование «сырого» указателя:</li>
+					<pre><code data-language="rust">
+let n = 10i;
+let p = &n as *const int;
+println!("{}", unsafe { *p });
+					</code></pre>
+				<li>чтение/запись статической мутабельной переменной:</li>
+					<pre><code data-language="rust">
+static mut COUNTER: u32 = 10;
+unsafe { COUNTER += 32 };
+println!("{}", unsafe { COUNTER });
+					</code></pre>
+				<li>вызов unsafe-функции:</li>
+					<pre><code data-language="rust">
+extern { fn perror(); }
+unsafe { perror(); }
+					</code></pre>
+			</ul>
+		</ol>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Когда это нужно</h2>
+		<ol>
+			<ul>
+				<li>ещё больше производительности</li>
+				<li>абстракции</li>
+				<li>взаимодействие с внешними библиотеками</li>
+			</ul>
+		</ol>
+		<p>Другими словами — очень редко!</p>
+	</div></section>
+	
+	
+	<section class="slide hide-slide-number"><div>
         <h2>Single block</h2>
         <pre><code data-language="rust">
             use std::io;
