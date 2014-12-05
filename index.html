@@ -556,34 +556,91 @@
         <h2>Трейты</h2>
 
         <pre><code data-language="rust">
+            trait HasArea {
+                fn area(&self) -> f64;
+            } 
+        </code></pre>
 
+        <pre class="next"><code data-language="rust">
+            struct Circle { x: f64, y: f64, radius: f64 }
+
+            impl HasArea for Circle {
+                fn area(&self) -> f64 {
+                    std::f64::consts::PI * (self.radius * self.radius)
+                }
+            }
         </code></pre>
     </div></section>
 
 
 
 	<section class="slide"><div>
-        <h2></h2>
+        <h2>Трейты</h2>
 
         <pre><code data-language="rust">
+            struct Square { x: f64, y: f64, side: f64 } 
+
+            impl HasArea for Square {
+                fn area(&self) -> f64 {
+                    self.side * self.side
+                }
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn print_area<T: HasArea>(shape: T) {
+                println!("This shape has an area of {}", shape.area());
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                print_area(Circle { x: 0.0, y: 0.0, radius: 1.0 });
+                print_area(Square { x: 0.0, y: 0.0, side: 1.0 });
+            }
         </code></pre>
     </div></section>
 
 
 
 	<section class="slide"><div>
-        <h2></h2>
+        <h2>Итераторы</h2>
 
         <pre><code data-language="rust">
+            trait Iterator&lt;A&gt; {
+                fn next(&mut self) -> Option<A>;
+                fn size_hint(&self) -> (uint, Option<uint>) { ... }
+            } 
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            pub trait IteratorExt&lt;A&gt;: Iterator&lt;A&gt; {
+                fn chain&lt;U: Iterator&lt;A&gt;&gt;(self, other: U)
+                fn zip&lt;B, U: Iterator&lt;B&gt;&gt;(self, other: U)
+                fn map&lt;'r, B&gt;(self, f: |A| -&gt; B)
+                fn filter&lt;'r&gt;(self, predicate: |&A| -&gt; bool)
+                // ...
+                // 23
+                // ...
+            }
         </code></pre>
     </div></section>
 
 
 
 	<section class="slide"><div>
-        <h2></h2>
+        <h2>Итераторы</h2>
 
         <pre><code data-language="rust">
+            fn main() {
+                range(1u, 1000)
+                    .filter(|&x| x % 2 == 0)
+                    .filter(|&x| x % 3 == 0)
+                    .map(|&x| x * x)
+                    .zip(count(0u, 1u))
+                    .take(5)
+                    .inspect(|&x| println!("{}", x));
+            }
         </code></pre>
     </div></section>
 
@@ -1007,14 +1064,6 @@ println!("{}", *guard);
 	
 	
 	
-	<!-- ROMAN SHMATOV SECTION STARTS -->
-
-	<!-- Как это выглядит на высоком уровне? -->
-	
-	<!-- ROMAN SHMATOV SECTION ENDS -->
-
-
-
     <section class="slide shout"><div>
 		<h2>Unsafe</h2>
 	</div></section>
@@ -1214,6 +1263,126 @@ fn main() {
 			</ul>
 		</ol>
 		<p>Другими словами — для системного программирования!</p>
+	</div></section>
+
+
+
+    <section class="slide shout"><div>
+        <h2>Инфраструктура</h2>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Crate</h2>
+
+		<pre><code data-language="rust">
+            extern crate foo;
+
+            use foo::{bar, baz};
+
+            pub mod a {
+                mod b {
+                    // ...
+                }
+                pub mod c {
+                    // ...
+                }
+            }
+            mod d {
+                // ...
+            }
+		</code></pre>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Тесты</h2>
+
+		<pre><code data-language="rust">
+            #[test]
+            fn test_something() {
+                assert_eq!(true, true);
+            }
+
+            #[bench]
+            fn test_perf(b: &mut Bencher) {
+                b.iter(|| {
+                    do_something();
+                });
+            }
+		</code></pre>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Cargo</h2>
+
+        <ul>
+            <li>отслеживание зависимостей</li>
+            <li>компиляция зависимостей</li>
+            <li>компиляция проекта</li>
+            <li>запуск тестов/бенчмарков</li>
+            <li>деплой пакетов в репозиторий</li>
+        </ul>
+
+        <h2>crates.io</h2>
+
+        <ul><li>400 пакетов за полторы недели</li></ul>
+
+    </div></section>
+    
+
+
+    <section class="slide shout"><div>
+        <h2>Что посмотреть?</h2>
+    </div></section>
+
+
+
+    <section class="slide hide-slide-number"><div>
+        <h2>Servo</h2>
+        <ul>
+            <li>исследовательский браузерный движок</li>
+            <li>активно развивается, уже проходит какие-то тесты</li>
+            <li>~100000 строк</li>
+            <li>https://github.com/servo/</li>
+        </ul>
+            
+        <h2>Cargo</h2>
+        <ul>
+            <li>менеджер сборки</li>
+            <li>новый проект, idiomatic style</li>
+            <li>~30000 строк</li>
+            <li>https://github.com/rust-lang/cargo</li>
+        </ul>
+    </div></section>
+
+
+
+    <section class="slide hide-slide-number"><div>
+        <ul>
+            <li>www.rust-lang.org</li>
+            <li>play.rust-lang.org</li>
+            <li>crates.io</li>
+            <li>doc.rust-lang.org/guide.html</li>
+            <li>doc.rust-lang.org</li>
+            <li>github.com/rust-lang</li>
+        </ul>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <img src="pictures/im-ok.png" class="place">
+    </div></section>
+    
+
+
+	<section class="slide shout"><div>
+		<h2>Вопросы?</h2>
 	</div></section>
 
 
