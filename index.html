@@ -678,7 +678,7 @@ use std::rc::Rc;
 		<h2>Потоки</h2>
 		<p>Создаются функцией spawn():</p>
 		<pre><code data-language="rust">
-spawn(move || {  // unboxed closure
+spawn(proc() {  // unboxed closure
     println!("Hello from other thread!");
 });
         </code></pre>
@@ -692,7 +692,7 @@ spawn(move || {  // unboxed closure
 		<p>Общение между потоками происходит через каналы:</p>
 		<pre><code data-language="rust">
 let (tx, rx) = channel();
-spawn(move || {
+spawn(proc() {
     tx.send(4u + 6);
     tx.send(5u + 7);
 });
@@ -711,7 +711,7 @@ use std::sync::Arc;
 let data = Arc::new(vec![1u, 2, 3]);
 	
 let for_thread = data.clone();
-spawn(move || {
+spawn(proc() {
     println!("From spawned thread: {}", *for_thread);
 });
 	
@@ -730,7 +730,7 @@ use std::sync::{Arc, Mutex};
 let data = Arc::new(Mutex::new(vec![1u, 2, 3]));
 let for_thread = data.clone();
 	
-spawn(move || {
+spawn(proc() {
     let mut guard = for_thread.lock();
     guard.push(4);
     println!("{}", *guard);
@@ -819,30 +819,6 @@ unsafe { perror(); }
 		</ol>
 		<p>Другими словами — очень редко!</p>
 	</div></section>
-	
-	
-	<section class="slide hide-slide-number"><div>
-        <h2>Single block</h2>
-        <pre><code data-language="rust">
-            use std::io;
-            use std::os;
-                
-            fn main() {
-                let args = os::args();
-                if args.len() != 2 {
-                    return;
-                }
-                let word = &args[1];
-                let mut reader = io::stdin();
-                let mut filtered = reader.lines()
-                    .filter_map(|line| line.ok())
-                    .filter(|line| line.as_slice().contains(word));
-                for line in filtered {
-                    print!("{}", line);
-                }
-            }
-        </code></pre>
-    </div></section>
 
 
 
