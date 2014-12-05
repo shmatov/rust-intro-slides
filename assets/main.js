@@ -7,8 +7,13 @@ window.onload = function() {
 function highlightSource(block, lang) {
     var sourceLines = (block.innerText || block.textContent).split('\n');
     //remove empty lines
-    while (!sourceLines[0].trim()) sourceLines.shift();
-    while (!sourceLines[sourceLines.length - 1].trim()) sourceLines.pop();
+    while (sourceLines.length && !sourceLines[0].trim())
+        sourceLines.shift();
+    while (sourceLines.length && !sourceLines[sourceLines.length - 1].trim())
+        sourceLines.pop();
+
+    if (!sourceLines.length)
+        return;
 
     var basisIndent = sourceLines[0].search(/\S/);
     var source = document.createDocumentFragment();
