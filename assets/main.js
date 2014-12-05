@@ -15,7 +15,7 @@ function highlightSource(block, lang) {
     sourceLines.forEach(function(line) {
         var elem = document.createElement('code');
         elem.classList.add('language-' + lang);
-        elem.innerText = elem.textContent = line.substr(basisIndent);
+        elem.innerText = elem.textContent = line.substr(basisIndent) || " ";
         hljs.highlightBlock(elem);
         source.appendChild(elem);
     });

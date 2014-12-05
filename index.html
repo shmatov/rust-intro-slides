@@ -20,7 +20,7 @@
     
     <section class="slide cover" id="Cover"><div>
 		<h2>Rust</h2>
-		<img src="pictures/rust-logo.svg" alt="">
+		<img src="pictures/rust-logo.svg">
 
 		<style>
             #Cover {
@@ -47,8 +47,14 @@
 
 
 
+	<section class="slide shout"><div>
+		<h2>Ещё один язык?!</h2>
+	</div></section>
+
+
+
     <section class="slide cover" id="Languages"><div>
-        <img src="pictures/languages.png" alt="">
+        <img src="pictures/languages.png">
         <style>
             #Languages {
                 background: #fff;
@@ -95,6 +101,88 @@
                 width: 90px;
             }
         </style>
+    </div></section>
+
+
+
+	<section class="slide"><div>
+		<figure>
+			<blockquote>
+                <p>Rust — это системный язык программирования, который работает невероятно быстро, предотвращает почти все падения и недопускает гонки данных.</p>
+                <p>
+                    <span class="next">бесплатные абстракции;</span>
+                    <span class="next">move-семантика;</span>
+                    <span class="next">гарантированная безопастность памяти;</span>
+                    <span class="next">многопоточность без гонок данных;</span>
+                    <span class="next">дженерики основанные на трейтах;</span>
+                    <span class="next">сопоставление с образцом;</span>
+                    <span class="next">вывод типов;</span>
+                    <span class="next">минимальный рантайм;</span>
+                    <span class="next">эфективные С биндинги.</span>
+                </p>
+			</blockquote>
+			<figcaption class="next">www.rust-lang.org</figcaption>
+		</figure>
+	</div></section>
+
+
+
+    <section class="slide"><div>
+        <img src="pictures/im-not-ok.png" class="place">
+    </div></section>
+
+
+
+	<section class="slide"><div>
+		<h2>Hello world</h2>
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                println!("Hello world");
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                let name = "world";
+                println!("Hello {}", name);
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn hello(name: &str) {
+                println!("Hello {}", name);
+            }
+
+            fn main() {
+                hello("world");
+            }
+        </code></pre>
+
+    </div></section>
+
+
+
+	<section class="slide"><div>
+		<h2>Hello world</h2>
+        <pre><code data-language="rust">
+            fn hello(name: &str) -> String {
+                format!("Hello {}", name)
+            }
+
+            fn main() {
+                println!("{}", hello("world"));
+            }
+        </code></pre>
+
+        <pre class="next"><code data-language="rust">
+            fn main() {
+                for number in range(1u, 100) {
+                    if number % 2 == 0 {
+                        println!("{}", number);
+                    }
+                }
+            }
+        </code></pre>
     </div></section>
 
 
@@ -241,7 +329,7 @@
 
 	<section class="slide cover" id="Picture"><div>
 		<h2>Pictures</h2>
-		<img src="pictures/picture.jpg" alt="">
+		<img src="pictures/picture.jpg">
 		<style>
 			#Picture h2 {
 				color:#FFF;
