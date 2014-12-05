@@ -302,7 +302,186 @@
 
 
 
-<<<<<<< 3b7315f8471958558dfe97eb1b7c0089e50d71e0
+	<section class="slide"><div>
+		<h2>Ownership</h2>
+		<pre><code data-language="cpp">
+{
+	int *x = malloc(sizeof(int));
+	
+	// do stuff
+	*x = 5;
+	
+	free(x);
+}
+        </code></pre>
+        <pre><code data-language="rust">
+{
+	let x = box 5;
+}
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Ownership</h2>
+		<pre><code data-language="rust">
+fn add_one(mut num: Box<int>) {
+    *num += 1;
+}
+	
+let x = box 5i;
+	
+add_one(x);
+	
+println!("{}", x);  // ! error: use of moved value: x
+        </code></pre>
+        <p>Move-семантика в действии!</p>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Ownership</h2>
+		<pre><code data-language="rust">
+fn add_one(mut num: Box<int>) -> Box<int> {
+    *num += 1;
+    num
+}
+	
+let x = box 5i;
+	
+let y = add_one(x);
+	
+println!("{}", y);  // 6
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Copy</h2>
+		<p>Некоторые типы реализуют трейт <b>Copy</b>; они автоматически копируются вместо перемещения:</p>
+		<pre><code data-language="rust">
+let x: int = 10;
+let y = x;
+println!("{}", x);
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>RAII</h2>
+		<pre><code data-language="rust">
+{
+    let mut f = File::open(&Path::new("/some/path")).unwrap()
+    // work with file ...
+}   // f's destructor is called here
+    // (unless it is moved somewhere else)
+        </code></pre>
+        <p>Ownership + move semantics + деструкторы = безопасный RAII. <br> Но move semantics подразумевает передачу права владения, что возможно далеко не всегда:</p>
+		<pre><code data-language="rust">
+let mut f = File::open(&Path::new("/some/path")).unwrap();
+let buf = [0u8, ..128];
+f.read(buf).unwrap();
+println!("{}", buf);  // ! use of moved value: buf
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Borrowing</h2>
+		<p>Владелец данных может предоставить к ним доступ с помощью <i>ссылок</i>:</p>
+		<pre><code data-language="rust">
+fn with_one(num: &int) -> int {
+    *num + 1
+}
+	
+let x = box 5i;
+	
+println!("{}", with_one(&*x));  // 6
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide hide-slide-number"><div>
+		<h2>Borrowing</h2>
+		<ol>
+			<ul>
+				<li><b>&T</b> — разделяемые/иммутабельные (shared/immutable)</li>
+				<li><b>&mut T</b> — неразделяемые/мутабельные (exclusive/mutable)</li>
+			</ul>
+		</ol>
+		<pre><code data-language="rust">
+let x = 10i;
+let p1 = &x;
+let p2 = &x;  // ok
+        </code></pre>
+        <pre><code data-language="rust">
+let mut x = 10i;
+let p1 = &mut x;
+let p2 = &x;  // ! cannot borrow x as immutable because 
+              // ! it is also borrowed as mutable
+        </code></pre>
+        <pre><code data-language="rust">
+let mut x = 10i;
+let p1 = &mut x;
+let p2 = &mut x;  // ! cannot borrow x as mutable 
+                  // ! more than once at a time
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Borrowing and mutability</h2>
+		<p>«Эксклюзивность» мутабельных ссылок исключает очень большой класс ошибок вида use-after-free (и не только):</p>
+		<pre><code data-language="rust">
+let mut v: Vec<int> = vec![1, 2];
+let e = &v[0];
+v.push(3);  // reallocates the vector, moving its contents
+            // ! cannot borrow v as mutable because 
+            // ! it is also borrowed as immutable
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Borrowing and mutability</h2>
+        <pre><code data-language="rust">
+let mut num = box 5i;
+let e = &*num;
+num = box 6i; //! cannot assign to num because it is borrowed
+        </code></pre>
+        <pre><code data-language="rust">
+let mut v = vec![1i, 2, 3];
+for &e in v.iter() {
+    println!("{}", e);
+    if e == 2 { v.push(-42); } //! cannot borrow v as mutable
+}
+        </code></pre>
+	</div></section>
+	
+	
+	
+	<section class="slide"><div>
+		<h2>Lifetimes</h2>
+		<p>«Наивное» заимствование может вызвать проблемы:</p>
+		<ol>
+			<li>создаётся ресурс X;</li>
+			<li>на ресурс X берётся ссылка a;</li>
+			<li>ресурс X уничтожается;</li>
+			<li>к [уничтоженному] ресурсу X осуществляется доступ через ссылку a.</li>
+		</ol>
+		<p>Use after free, доступ к закрытому файлу, etc.<br>Решение — <b>статически</b> обеспечить невозможность 4 перед 3.</p>
+	</div></section>
+	
+	
+	
     <section class="slide"><div>
         <h2>Two blocks</h2>
         <pre><code data-language="cpp">
@@ -353,24 +532,6 @@
     </div></section>
 
 
-=======
-	<section class="slide"><div>
-		<h2>Ownership</h2>
-		<pre class="code-font-fix"><code>
-{
-	int *x = malloc(sizeof(int));
-	// do stuff
-	*x = 5;
-	free(x);
-}
-		</pre></code>
-		<pre class="code-font-fix"><code>
-{
-	let x = box 5;
-}
-		</pre></code>
-	</div></section>
->>>>>>> bbdc14899f926498552a0ff1b5638b2f3c8eea47
 
 	<div class="progress"><div></div></div>
 </body>
