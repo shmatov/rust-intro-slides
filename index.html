@@ -588,7 +588,7 @@
         </code></pre>
 
         <pre class="next"><code data-language="rust">
-            fn print_area<T: HasArea>(shape: T) {
+            fn print_area&lt;T: HasArea&gt;shape: T) {
                 println!("This shape has an area of {}", shape.area());
             }
         </code></pre>
@@ -658,19 +658,19 @@
             <div class="next">
                 <dt>Java / C# / C++ / etc</dt>
                 <dd class="next">
-                    compile → <mark class="bad">run → fail</mark> → …
+                    write → compile → <mark class="bad">run → fail</mark> → …
                 </dd>
             </div>
             <div class="next">
                 <dt>Python / Ruby / JS / etc</dt>
                 <dd class="next">
-                    <mark class="bad">run → fail</mark> → …
+                    write → <mark class="bad">run → fail</mark> → …
                 </dd>
             </div>
             <div class="next">
                 <dt>Haskell / Rust / ???</dt>
                 <dd class="next">
-                    <mark class="good">compile → fail</mark> → … → run
+                    write → <mark class="good">compile → fail</mark> → … → run
                 </dd>
             </div>
         </dl>
